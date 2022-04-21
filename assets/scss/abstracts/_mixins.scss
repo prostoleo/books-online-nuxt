@@ -1,0 +1,22 @@
+$breakpoints: (
+  sm: 450px,
+  2sm: 650px,
+  med: 768px,
+  lg: 950px,
+  xl: 1200px,
+  2xl: 1400px,
+  3xl: 1600px,
+  4xl: 1800px,
+);
+
+$maw-container: 1200px;
+$max-width: 1200;
+$min-width: 320;
+
+@mixin mq($key) {
+  $size: map-get($breakpoints, $key);
+
+  @media only screen and (min-width: $size) {
+    @content;
+  }
+}

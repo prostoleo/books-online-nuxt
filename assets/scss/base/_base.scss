@@ -1,0 +1,19 @@
+@import './fonts';
+@import '../abstracts/index';
+
+html {
+  // font-size: 62.5%;
+}
+
+body {
+  margin: 0;
+  font-family: $FiraSans;
+  font-size: 1rem;
+  background: $bg-body;
+  overflow-x: hidden;
+  // min-height: 100%;
+}
+
+body.lock {
+  overflow: hidden;
+}
