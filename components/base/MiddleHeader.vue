@@ -1,7 +1,9 @@
 <template>
   <div class="middle-header py-3">
     <div class="container flex flex-wrap gap-y-3 md:(flex-nowrap)">
-      <img class="logo" src="/logo.svg" alt="логотип Books Online" />
+      <a href="/">
+        <img class="logo" src="/logo.svg" alt="логотип Books Online" />
+      </a>
       <div class="input-block">
         <input
           id="input-search"

@@ -62,8 +62,8 @@ export default {}
 
       &::before {
         content: '';
-        transform: scale(0);
-        @apply absolute left-0 top-0 w-full h-full bg-accent rounded-xl opacity-0 transition-all duration-300 -z-1;
+        // transform: scale(0);
+        @apply absolute left-0 top-0 w-full h-full bg-accent rounded-xl opacity-0 transform scale-0 transition-all duration-300 -z-1;
       }
 
       &:hover,
@@ -71,8 +71,8 @@ export default {}
         @apply text-white duration-300;
 
         &::before {
-          transform: scale(1);
-          @apply opacity-100 transition-all duration-300;
+          // transform: scale(1);
+          @apply opacity-100 transform scale-100 transition-all duration-300;
         }
       }
 

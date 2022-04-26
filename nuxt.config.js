@@ -52,7 +52,7 @@ export default {
 
   // Global CSS: https://go.nuxtjs.dev/config-css
   css: [
-    './assets/css/normalize.css',
+    // './assets/css/normalize.css',
     'virtual:windi.css',
     // 'virtual:windi-devtools',
     './assets/scss/style.scss',

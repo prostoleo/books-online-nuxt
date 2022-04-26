@@ -1,33 +1,23 @@
 <template>
-  <div class="site">
-    <header>
-      <UpperHeader></UpperHeader>
-      <MiddleHeader></MiddleHeader>
-      <BottomHeader></BottomHeader>
-    </header>
-    <div class="container"></div>
+  <div class="overflow-x-hidden">
+    <PromoSlider></PromoSlider>
+    <MainContent></MainContent>
   </div>
 </template>
 
 <script>
-import UpperHeader from '~/components/base/UpperHeader.vue'
-import MiddleHeader from '~/components/base/MiddleHeader.vue'
-import BottomHeader from '~/components/base/BottomHeader.vue'
+import PromoSlider from '~/components/PromoSlider.vue'
+import MainContent from '~/components/MainContent.vue'
 export default {
   name: 'IndexPage',
-  components: { UpperHeader, MiddleHeader, BottomHeader },
+
+  components: {
+    PromoSlider,
+    MainContent,
+  },
+
+  layout: 'DefaultLay',
 }
 </script>
 
-<style lang="scss">
-$color: red;
-
-h1 {
-  color: $color;
-}
-
-.site {
-  display: grid;
-  grid-template-rows: repeat(3, auto) 1fr auto;
-}
-</style>
+<style lang="scss"></style>

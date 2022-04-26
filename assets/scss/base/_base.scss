@@ -10,7 +10,7 @@ body {
   font-family: $FiraSans;
   font-size: 1rem;
   background: $bg-body;
-  overflow-x: hidden;
+  overflow-x: hidden !important;
   // min-height: 100%;
 }
 

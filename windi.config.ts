@@ -1,4 +1,6 @@
 import { defineConfig } from 'windicss/helpers'
+/* import plugin from 'windicss/plugin'
+console.log('plugin: ', plugin) */
 
 export default defineConfig({
   darkMode: 'class',
@@ -32,4 +34,18 @@ export default defineConfig({
       },
     },
   },
+
+  plugins: [
+    /* require('windicss-pseudo-elements'),
+    plugin(({ addUtilities }) => {
+      const newUtilities = {
+        '.empty-content': {
+          content: "''",
+        },
+      }
+      addUtilities(newUtilities, {
+        variants: ['before', 'after'],
+      })
+    }), */
+  ],
 })
