@@ -1,6 +1,6 @@
 <template>
   <aside
-    class="catalogue p-4 border border-2 border-solid border-light-grey mr-[5%] absolute top-[5rem] left-0 w-full h-auto max-w-72 bg-white transform -translate-x-15/10 z-20 transition-transform duration-700 xl:(translate-x-0 static)"
+    class="catalogue p-4 border border-2 border-solid border-light-grey mr-[3%] absolute top-[5rem] left-0 w-full h-auto max-w-72 bg-white transform -translate-x-15/10 z-20 transition-transform duration-700 xl:(translate-x-0 static)"
     :class="{ '!translate-x-0': openAside }"
   >
     <h1
@@ -14,6 +14,7 @@
         <a
           href=""
           class="catalogue__link inline-block w-full py-[0.5em] px-[1em] text-blackish overflow-hidden transition-colors duration-200 hover:(text-white bg-accent)"
+          @click.prevent="showBooksFromAside($event)"
           >Все</a
         >
       </li>
@@ -22,6 +23,7 @@
         <a
           href=""
           class="catalogue__link inline-block w-full py-[0.5em] px-[1em] text-blackish overflow-hidden transition-colors duration-200 hover:(text-white bg-accent)"
+          @click.prevent="showBooksFromAside($event)"
         >
           Художественная литература
         </a>
@@ -181,9 +183,23 @@ export default {
   data() {
     return {
       // openAside: false,
-    }
+    };
   },
-}
+
+  methods: {
+    showBooksFromAside($event) {
+      console.log('$event: ', $event);
+
+      const link = $event.target.closest('.catalogue__link');
+
+      if (!link) return;
+
+      const category = link.textContent;
+
+      this.$store.commit('books/changeActiveCategory', category);
+    },
+  },
+};
 </script>
 
 <style lang="scss" scoped>

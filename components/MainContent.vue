@@ -2,7 +2,7 @@
   <main class="my-10">
     <div class="container relative xl:(flex items-start)">
       <BaseAside :open-aside="openAside" />
-      <section class="main-content">
+      <section class="main-content w-full">
         <div class="filter-block flex items-center gap-x-4 gap-y-2">
           <button
             class="btn-toggle-menu text-black text-3xl inline-flex items-center justify-center"
@@ -39,90 +39,104 @@
             Все
           </h2>
           <!-- /#filter-search-title -->
-          <ul class="pagination flex items-center gap-2 flex-wrap">
-            <li v-for="i in 7" :key="i" class="pagination-item">
-              <a
-                href="#"
-                class="pagination-link block leading-none p-2 relative hover:(bg-accent text-white)"
-                >{{ i }}</a
-              >
-              <!-- before:(empty-content absolute left-0 right-0 bottom-0 w-full h-[2px] bg-accent) -->
-            </li>
-            <!-- /.pagination-item -->
-          </ul>
-          <!-- /.pagination -->
+          <BasePagination />
         </div>
         <!-- /.upper-block -->
 
-        <div v-if="loading">loading...</div>
+        <!-- <pre>
+          {{ booksToShow }}
+        </pre> -->
+        <div v-if="!booksToShow">loading...</div>
+        <!--  -->
         <transition-group
           v-else
           name="list"
           tag="ul"
-          class="card-list mt-6 grid grid-cols-[repeat(auto-fit,minmax(175px,250px))] justify-center gap-4 sm:(gap-3 grid-cols-[repeat(auto-fit,minmax(175px,1fr))] justify-start)"
+          class="card-list mt-6 grid grid-cols-2 justify-center gap-2 sm:(gap-3 grid-cols-[repeat(auto-fit,minmax(175px,1fr))] justify-start)"
         >
+          <!-- src="https://cdn.eksmo.ru/v2/430000000000005159/COVER/cover1__w820.jpg" -->
+
           <li
-            v-for="i in 7"
-            :key="i"
+            v-for="book in booksToShow"
+            :key="book.id"
             class="card-item bg-white shadow shadow-md p-3 relative transform scale-100 transition-transform hover:(scale-104) z-10"
           >
+            <!-- <pre>{{ book.attributes.image.data.attributes.formats }}</pre> -->
             <div
+              v-if="book.attributes.discount"
               class="absolute right-0 top-0 inline-flex items-center justify-center p-1 w-10 h-10 text-white text-sm leading-none rounded-full bg-reddish align-middle"
             >
-              15 %
+              {{ book.attributes.discount }} %
             </div>
-            <img
-              class="max-h-72 mx-auto"
-              src="https://cdn.eksmo.ru/v2/430000000000005159/COVER/cover1__w820.jpg"
-              alt=""
-            />
-            <div class="mt-3 text-center">
-              <h3 class="text-blackish font-bold text-xl mb-[1em]">
-                "Название"
-              </h3>
-              <h4 class="text-grey text-xl font-semibold">"Автор"</h4>
-              <p class="text-grey">
-                <span class="font-semibold">Год изд.: </span>2010
-              </p>
-              <span class="block text-red-bright text-lg mt-2">999₽</span>
-              <button
-                class="mx-auto mt-3 flex items-center justify-center gap-x-1 text-white font-semibold bg-accent rounded-2xl px-[0.75em] py-[0.35em]"
+
+            <div class="max-h-72 mx-auto max-w-full">
+              <img
+                class="object-contain h-full mx-auto"
+                :src="`http://localhost:1337${book.attributes.bookImage.data.attributes.url}`"
+                loading="lazy"
+                alt=""
+                height="288"
+              />
+            </div>
+            <div class="text-card mt-3 text-center">
+              <h3
+                class="text-blackish font-bold mb-[1em] hyphens-auto text-lg md:(text-xl)"
               >
-                <ion-icon name="cart"></ion-icon>
-                Корзина
-              </button>
+                {{ book.attributes.title }}
+              </h3>
+              <div class="">
+                <h4 class="text-grey font-semibold text-lg md:(text-xl)">
+                  {{ book.attributes.author }}
+                </h4>
+                <p class="text-grey text-sm md:(text-base)">
+                  <span class="font-semibold">Год изд.: </span
+                  >{{ book.attributes.yearOfPublish }}
+                </p>
+                <span class="block text-red-bright text-lg mt-2"
+                  >{{ book.attributes.price }}₽</span
+                >
+                <button
+                  class="mx-auto mt-3 flex items-center justify-center gap-x-1 text-white font-semibold bg-accent rounded-2xl px-[0.75em] py-[0.35em]"
+                >
+                  <ion-icon name="cart"></ion-icon>
+                  Корзина
+                </button>
+              </div>
             </div>
           </li>
         </transition-group>
-        <ul
-          class="pagination-bottom mt-4 flex items-center justify-end gap-2 flex-wrap"
-        >
-          <li v-for="i in 7" :key="i" class="pagination-item">
-            <a
-              href="#"
-              class="pagination-link block leading-none p-2 relative hover:(bg-accent text-white)"
-              >{{ i }}</a
-            >
-          </li>
-          <!-- /.pagination-item -->
-        </ul>
-        <!-- /.pagination -->
+        <BasePagination class="justify-end mt-4" />
       </section>
     </div>
   </main>
 </template>
 
 <script>
-import BaseAside from './base/BaseAside.vue'
+import BaseAside from './base/BaseAside.vue';
+import BasePagination from './base/BasePagination.vue';
 export default {
-  components: { BaseAside },
+  components: { BaseAside, BasePagination },
+  // props: {
+  //   booksToShow: {
+  //     type: Object || null,
+  //     required: true,
+  //   },
+  // },
+
   data() {
     return {
       loading: false,
       openAside: false,
-    }
+      // booksToShow: null,
+    };
   },
-}
+
+  computed: {
+    booksToShow() {
+      return this.$store.getters['books/getAllBooksData'];
+    },
+  },
+};
 </script>
 
 <style lang="scss" scoped>
@@ -130,14 +144,15 @@ export default {
   transition: transform 0.5s ease-out;
 }
 
-a.pagination-link {
-  &::before {
-    content: '';
-    @apply absolute left-0 right-0 bottom-0 w-full h-[2px] bg-accent opacity-0;
-  }
+// .text-card {
+//   display: grid;
+//   grid-template-rows: 1fr auto;
+//   max-height: 210px;
+//   height: 100%;
+// }
 
-  &.active::before {
-    @apply opacity-100;
-  }
+.card-item {
+  display: grid;
+  grid-template-rows: 1fr auto;
 }
 </style>

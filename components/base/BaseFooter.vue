@@ -1,7 +1,7 @@
 <template>
   <footer class="py-8 bg-grey">
     <div
-      class="container footer__container grid grid-flow-col grid-cols-[repeat(auto-fit,minmax(160px, 1fr))] gap-4"
+      class="container footer__container grid grid-cols-[repeat(auto-fit,minmax(160px, 1fr))] gap-4 md:(grid-flow-col)"
     >
       <div class="footer__logo-copy">
         <div class="footer__logo">
@@ -98,7 +98,7 @@
 </template>
 
 <script>
-export default {}
+export default {};
 </script>
 
 <style lang="scss" scoped></style>

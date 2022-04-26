@@ -3,14 +3,18 @@
     <div class="glide">
       <div class="glide__track relative" data-glide-el="track">
         <ul class="glide__slides flex">
-          <li v-for="i in 3" :key="i" class="glide__slide block relative">
+          <li
+            v-for="i in 3"
+            :key="i"
+            class="glide__slide block relative overflow-hidden"
+          >
             <img
-              class="w-full h-[calc(100%+8rem)] max-h-[400px] md:(h-auto)"
+              class="w-full max-h-[400px] md:(h-auto)"
               src="https://images.unsplash.com/photo-1469474968028-56623f02e42e?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1174&q=80"
               alt=""
             />
             <div
-              class="absolute top-50/100 left-[65%] transform -translate-x-1/2 -translate-y-1/2 text-white max-w-[17ch] md:(max-w-[25ch])"
+              class="absolute top-50/100 left-[65%] transform -translate-x-1/2 -translate-y-1/2 text-white max-w-[25ch]"
             >
               <h2 class="font-bold text-lg w-[fit-content] md:(text-4xl)">
                 Название: {{ i }}
@@ -21,9 +25,11 @@
                 omnis modi dolores aperiam dignissimos!
               </p>
             </div>
-            <div class="slide-book">
+            <div
+              class="slide-book absolute left-1/5 top-1/2 transform -translate-x-1/2 -translate-y-1/2 w-1/4 max-h-[370px] overflow-hidden"
+            >
               <img
-                class="absolute left-1/5 top-1/2 transform -translate-x-1/2 -translate-y-1/2 w-1/4"
+                class="object-contain"
                 src="https://cdn.eksmo.ru/v2/430000000000005159/COVER/cover1__w820.jpg"
                 alt=""
               />
@@ -63,7 +69,7 @@
 </template>
 
 <script>
-import Glide, { Swipe, Controls } from '@glidejs/glide/dist/glide.modular.esm'
+import Glide, { Swipe, Controls } from '@glidejs/glide/dist/glide.modular.esm';
 
 export default {
   mounted() {
@@ -74,9 +80,9 @@ export default {
       focusAt: 'center',
       startAt: 3,
       gap: 20,
-    }).mount({ Controls, Swipe })
+    }).mount({ Controls, Swipe });
   },
-}
+};
 </script>
 
 <style lang="scss" scoped></style>
