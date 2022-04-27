@@ -11,26 +11,7 @@
           >
             <ion-icon name="menu"></ion-icon>
           </button>
-          <div class="btn-block flex flex-wrap gap-x-2 gap-y-1">
-            <button
-              class="btn-filter px-3 py-2 bg-gray-200 flex items-center gap-x-1"
-            >
-              Со скидкой
-            </button>
-            <button
-              class="btn-filter px-3 py-2 bg-gray-200 flex items-center gap-x-1"
-            >
-              По дате издания
-              <ion-icon name="chevron-up-outline"></ion-icon>
-            </button>
-            <button
-              class="btn-filter px-3 py-2 bg-gray-200 flex items-center gap-x-1"
-            >
-              По цене
-              <ion-icon name="chevron-up-outline"></ion-icon>
-            </button>
-          </div>
-          <!-- /.btn-block -->
+          <BaseFilter />
         </div>
         <!-- /.filter-block -->
 
@@ -114,8 +95,9 @@
 <script>
 import BaseAside from './base/BaseAside.vue';
 import BasePagination from './base/BasePagination.vue';
+import BaseFilter from './base/BaseFilter.vue';
 export default {
-  components: { BaseAside, BasePagination },
+  components: { BaseAside, BasePagination, BaseFilter },
   // props: {
   //   booksToShow: {
   //     type: Object || null,

@@ -33,8 +33,14 @@ export default {
 
   methods: {
     showPage(page) {
+      console.log(this.$route);
+
       if (page !== this.activePage) {
         this.$store.dispatch('books/showBooksOnPageNumber', page);
+        this.$router.push({
+          name: 'index',
+          query: { ...this.$route.query, page },
+        });
       }
     },
   },

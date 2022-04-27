@@ -1,9 +1,8 @@
-// eslint-disable-next-line no-unused-vars
-import qs from 'qs';
-
 import {
+  getBooksOnSale,
   getFilterCategoryStr,
   getFilterSubcategoryStr,
+  getQueryStr,
 } from '~/utils/queryString';
 
 export const state = () => ({
@@ -12,10 +11,12 @@ export const state = () => ({
   activeSubcategory: '',
   sortType: {
     showWithSale: false,
-    datePublishAsc: false,
-    datePublishDesc: false,
-    priceAsc: false,
-    priceDesc: false,
+    // datePublishAsc: false,
+    // datePublishDesc: false,
+    datePublishSort: '',
+    // priceAsc: false,
+    // priceDesc: false,
+    priceSort: '',
   },
 
   allBooksData: null, // type object | null
@@ -46,6 +47,14 @@ export const getters = {
   getActivePageNumber(state) {
     return state.allBooksMeta.pagination.page;
   },
+
+  getShowWithSale(state) {
+    return state.sortType.showWithSale;
+  },
+
+  getDatePublishSort(state) {
+    return state.sortType.datePublishSort;
+  },
 };
 
 export const actions = {
@@ -55,37 +64,21 @@ export const actions = {
 
     // return null;
 
-    const query = qs.stringify(
-      {
-        fields: [
-          'author',
-          'title',
-          'category',
-          'subcategory',
-          'yearOfPublish',
-          'price',
-          'discount',
-        ],
-        populate: {
-          bookImage: {
-            fields: ['name', 'url', 'formats'],
-          },
-        },
-        pagination: {
-          page: pageNumber,
-        },
-      },
-      {
-        encodeValuesOnly: true,
-      }
-    );
+    // todo получаем queryString начальный
+    const query = getQueryStr(pageNumber);
 
+    // todo получаем queryString для скидки
+    const saleStr = getBooksOnSale(context.getters.getShowWithSale);
+
+    // todo получаем queryString для категории
     const categoryStr = getFilterCategoryStr(context.getters.getActiveCategory);
+
+    // todo получаем queryString для подкатегории
     const subcategoryStr = getFilterSubcategoryStr(
       context.getters.getActiveSubcategory
     );
 
-    const url = `http://localhost:1337/api/books/?${categoryStr}${subcategoryStr}${query}`;
+    const url = `http://localhost:1337/api/books/?${categoryStr}${subcategoryStr}${saleStr}${query}`;
 
     try {
       const res = await this.$axios.$get(url);
@@ -106,37 +99,17 @@ export const actions = {
     const categoryLowerCaseTrim = categoryToShow.toLowerCase().trim();
     console.log('categoryLowerCaseTrim: ', categoryLowerCaseTrim);
 
-    // eslint-disable-next-line no-unused-vars
-    const query = qs.stringify(
-      {
-        fields: [
-          'author',
-          'title',
-          'category',
-          'subcategory',
-          'yearOfPublish',
-          'price',
-          'discount',
-        ],
-        populate: {
-          bookImage: {
-            fields: ['name', 'url', 'formats'],
-          },
-        },
-
-        pagination: {
-          // page: context.getters.getAllBooksMeta.pagination.page,
-          pageSize: 24,
-        },
-      },
-      {
-        encodeValuesOnly: true,
-      }
-    );
+    // todo получаем начальную queryStr для index и поиска страницы
+    const query = getQueryStr();
     console.log('query: ', query);
-    // context.commit('changeActiveCategory', categoryToShow);
+
+    // todo сбрасываем активную подкатегорию
     context.commit('resetActiveSubcategory', null);
+
+    // todo меняем активную категорию
     context.commit('changeActiveCategory', categoryToShow);
+
+    // todo получаем queryString для категории
     const categoryStr = getFilterCategoryStr(context.getters.getActiveCategory);
 
     const url = `http://localhost:1337/api/books/?${categoryStr}${query}`;
@@ -163,43 +136,77 @@ export const actions = {
     console.log('subcategoryTrim: ', subcategoryTrim);
 
     // eslint-disable-next-line no-unused-vars
-    const query = qs.stringify(
-      {
-        fields: [
-          'author',
-          'title',
-          'category',
-          'subcategory',
-          'yearOfPublish',
-          'price',
-          'discount',
-        ],
-        populate: {
-          bookImage: {
-            fields: ['name', 'url', 'formats'],
-          },
-        },
-
-        pagination: {
-          // page: context.getters.getAllBooksMeta.pagination.page,
-          pageSize: 24,
-        },
-      },
-      {
-        encodeValuesOnly: true,
-      }
-    );
-    console.log('query: ', query);
+    const query = getQueryStr();
+    // console.log('query: ', query);
     // context.commit('changeActiveCategory', categoryToShow);
-    console.log('context: ', context);
+    // console.log('context: ', context);
+    // todo сбрасываем активную категорию
     context.commit('resetActiveСategory', null);
+
+    // todo меняем активную подкатегорию
     context.commit('changeActiveSubcategory', subcategoryToShow);
+
+    // todo получаем queryString для подкатегории
     const subcategoryStr = getFilterSubcategoryStr(
       context.getters.getActiveSubcategory
     );
     console.log('subcategoryStr: ', subcategoryStr);
 
-    const url = `http://localhost:1337/api/books/?${subcategoryStr}${query}`;
+    // todo получаем queryString для скидки
+    const saleStr = getBooksOnSale(context.getters.getShowWithSale);
+
+    const url = `http://localhost:1337/api/books/?${subcategoryStr}${saleStr}${query}`;
+    console.log('url: ', url);
+
+    try {
+      const res = await this.$axios.$get(url);
+      console.log('res: ', res);
+
+      context.commit('putAllBooksData', res.data);
+      context.commit('putAllBooksMeta', res.meta);
+    } catch (error) {
+      console.error(error);
+    }
+  },
+
+  async toggleShowSale(context) {
+    const saleStr = getBooksOnSale(context.getters.getShowWithSale);
+
+    const query = getQueryStr(context.getters.getActivePageNumber);
+    // context.commit('changeActiveCategory', categoryToShow);
+    const categoryStr = getFilterCategoryStr(context.getters.getActiveCategory);
+    const subcategoryStr = getFilterSubcategoryStr(
+      context.getters.getActiveSubcategory
+    );
+
+    const url = `http://localhost:1337/api/books/?${saleStr}${categoryStr}${subcategoryStr}${query}`;
+    console.log('url: ', url);
+
+    try {
+      const res = await this.$axios.$get(url);
+      console.log('res: ', res);
+
+      context.commit('putAllBooksData', res.data);
+      context.commit('putAllBooksMeta', res.meta);
+    } catch (error) {
+      console.error(error);
+    }
+  },
+
+  async booksSortOnPublish(context) {
+    const saleStr = getBooksOnSale(context.getters.getShowWithSale);
+
+    const query = getQueryStr(1, {
+      field: 'yearOfPublish',
+      sort: context.getters.getDatePublishSort,
+    });
+    // context.commit('changeActiveCategory', categoryToShow);
+    const categoryStr = getFilterCategoryStr(context.getters.getActiveCategory);
+    const subcategoryStr = getFilterSubcategoryStr(
+      context.getters.getActiveSubcategory
+    );
+
+    const url = `http://localhost:1337/api/books/?${saleStr}${categoryStr}${subcategoryStr}${query}`;
     console.log('url: ', url);
 
     try {
@@ -243,5 +250,26 @@ export const mutations = {
   putAllBooksMeta(state, payload) {
     if (!payload) return;
     state.allBooksMeta = payload;
+  },
+
+  toggleShowSale(state) {
+    state.sortType.showWithSale = !state.sortType.showWithSale;
+  },
+
+  changeSortPublish(state) {
+    switch (state.sortType.datePublishSort) {
+      case 'asc':
+        state.sortType.datePublishSort = 'desc';
+
+        break;
+      case 'desc':
+        state.sortType.datePublishSort = '';
+
+        break;
+
+      default:
+        state.sortType.datePublishSort = 'asc';
+        break;
+    }
   },
 };

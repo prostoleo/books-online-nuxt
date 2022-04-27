@@ -1,7 +1,7 @@
 <template>
   <div class="overflow-x-hidden">
     <PromoSlider></PromoSlider>
-    <MainContent :books-to-show="books"></MainContent>
+    <MainContent></MainContent>
   </div>
 </template>
 
@@ -9,6 +9,11 @@
 import qs from 'qs';
 import PromoSlider from '~/components/PromoSlider.vue';
 import MainContent from '~/components/MainContent.vue';
+import {
+  getBooksOnSale,
+  getFilterCategoryStr,
+  getFilterSubcategoryStr,
+} from '~/utils/queryString';
 export default {
   name: 'IndexPage',
 
@@ -33,8 +38,19 @@ export default {
         'image',
       ],
     }); */
+    const { category, subcategory, page, sale } = context.query;
+    console.log({ category, subcategory });
 
-    const query = qs.stringify(
+    category && context.store.commit('books/changeActiveCategory', category);
+    subcategory &&
+      context.store.commit('books/changeActiveSubcategory', subcategory);
+    sale && context.store.commit('books/toggleShowSale');
+
+    const saleStr = getBooksOnSale(sale);
+    const categoryStr = getFilterCategoryStr(category);
+    const subcategoryStr = getFilterSubcategoryStr(subcategory);
+
+    const queryStr = qs.stringify(
       {
         fields: [
           'author',
@@ -51,7 +67,7 @@ export default {
           },
         },
         pagination: {
-          // page: context.getters.getAllBooksMeta.pagination.page,
+          page: page || 1,
           pageSize: 24,
         },
       },
@@ -59,13 +75,14 @@ export default {
         encodeValuesOnly: true,
       }
     );
-    console.log('query: ', query);
+    // console.log('queryStr: ', queryStr);
+
+    const url = `http://localhost:1337/api/books/?${categoryStr}${subcategoryStr}${saleStr}${queryStr}`;
+    console.log('url: ', url);
 
     try {
       // eslint-disable-next-line no-unused-vars
-      const res = await context.$axios.$get(
-        `http://localhost:1337/api/books?${query}`
-      );
+      const res = await context.$axios.$get(url);
       console.log('res: ', res);
       // books = res;
       // console.log('books: ', books);
