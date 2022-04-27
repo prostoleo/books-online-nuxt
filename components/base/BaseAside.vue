@@ -10,20 +10,26 @@
     </h1>
 
     <ul class="catalogue__list relative z-[1]">
-      <li class="catalogue__item relative z-[2] --active">
+      <li
+        class="catalogue__item relative z-[2]"
+        :class="{ '--active': activeCategory === 'Все' }"
+      >
         <a
           href=""
           class="catalogue__link inline-block w-full py-[0.5em] px-[1em] text-blackish overflow-hidden transition-colors duration-200 hover:(text-white bg-accent)"
-          @click.prevent="showBooksFromAside($event)"
+          @click.prevent="showBooksOnCategory($event)"
           >Все</a
         >
       </li>
 
-      <li class="catalogue__item">
+      <li
+        class="catalogue__item relative z-[2]"
+        :class="{ '--active': activeCategory === 'Художественная литература' }"
+      >
         <a
           href=""
           class="catalogue__link inline-block w-full py-[0.5em] px-[1em] text-blackish overflow-hidden transition-colors duration-200 hover:(text-white bg-accent)"
-          @click.prevent="showBooksFromAside($event)"
+          @click.prevent="showBooksOnCategory($event)"
         >
           Художественная литература
         </a>
@@ -34,6 +40,7 @@
             <a
               href=""
               class="sublist__link inline-block w-full text-sm font-normal py-[0.3em] px-[0.5em] border-b border-solid border-light-grey text-blackish transition-colors duration-300 hover:(bg-accent text-white)"
+              @click.prevent="showBooksOnSubcategory($event)"
               >Современная проза</a
             >
           </li>
@@ -41,6 +48,7 @@
             <a
               href=""
               class="sublist__link inline-block w-full text-sm font-normal py-[0.3em] px-[0.5em] border-b border-solid border-light-grey text-blackish transition-colors duration-300 hover:(bg-accent text-white)"
+              @click.prevent="showBooksOnSubcategory($event)"
               >Классическая литература</a
             >
           </li>
@@ -48,6 +56,7 @@
             <a
               href=""
               class="sublist__link inline-block w-full text-sm font-normal py-[0.3em] px-[0.5em] border-b border-solid border-light-grey text-blackish transition-colors duration-300 hover:(bg-accent text-white)"
+              @click.prevent="showBooksOnSubcategory($event)"
               >Детективы</a
             >
           </li>
@@ -55,6 +64,7 @@
             <a
               href=""
               class="sublist__link inline-block w-full text-sm font-normal py-[0.3em] px-[0.5em] border-b border-solid border-light-grey text-blackish transition-colors duration-300 hover:(bg-accent text-white)"
+              @click.prevent="showBooksOnSubcategory($event)"
               >Фантастика</a
             >
           </li>
@@ -62,6 +72,7 @@
             <a
               href=""
               class="sublist__link inline-block w-full text-sm font-normal py-[0.3em] px-[0.5em] border-b border-solid border-light-grey text-blackish transition-colors duration-300 hover:(bg-accent text-white)"
+              @click.prevent="showBooksOnSubcategory($event)"
               >Любовные романы</a
             >
           </li>
@@ -69,6 +80,7 @@
             <a
               href=""
               class="sublist__link inline-block w-full text-sm font-normal py-[0.3em] px-[0.5em] border-b border-solid border-light-grey text-blackish transition-colors duration-300 hover:(bg-accent text-white)"
+              @click.prevent="showBooksOnSubcategory($event)"
               >Драматургия</a
             >
           </li>
@@ -76,6 +88,7 @@
             <a
               href=""
               class="sublist__link inline-block w-full text-sm font-normal py-[0.3em] px-[0.5em] border-b border-solid border-light-grey text-blackish transition-colors duration-300 hover:(bg-accent text-white)"
+              @click.prevent="showBooksOnSubcategory($event)"
               >Биография и мемуары</a
             >
           </li>
@@ -83,6 +96,7 @@
             <a
               href=""
               class="sublist__link inline-block w-full text-sm font-normal py-[0.3em] px-[0.5em] border-b border-solid border-light-grey text-blackish transition-colors duration-300 hover:(bg-accent text-white)"
+              @click.prevent="showBooksOnSubcategory($event)"
               >Приключения</a
             >
           </li>
@@ -90,16 +104,21 @@
             <a
               href=""
               class="sublist__link inline-block w-full text-sm font-normal py-[0.3em] px-[0.5em] border-b border-solid border-light-grey text-blackish transition-colors duration-300 hover:(bg-accent text-white)"
+              @click.prevent="showBooksOnSubcategory($event)"
               >Юмор</a
             >
           </li>
         </ul>
       </li>
       <!-- /catalogue__item -->
-      <li class="catalogue__item">
+      <li
+        class="catalogue__item relative z-[2]"
+        :class="{ '--active': activeCategory === 'Учебная литература' }"
+      >
         <a
           href=""
           class="catalogue__link inline-block w-full py-[0.5em] px-[1em] text-blackish overflow-hidden transition-colors duration-200 hover:(text-white bg-accent)"
+          @click.prevent="showBooksOnCategory($event)"
         >
           Учебная литература
         </a>
@@ -110,6 +129,7 @@
             <a
               href=""
               class="sublist__link inline-block w-full text-sm font-normal py-[0.3em] px-[0.5em] border-b border-solid border-light-grey text-blackish transition-colors duration-300 hover:(bg-accent text-white)"
+              @click.prevent="showBooksOnSubcategory($event)"
               >Информатика</a
             >
           </li>
@@ -117,6 +137,7 @@
             <a
               href=""
               class="sublist__link inline-block w-full text-sm font-normal py-[0.3em] px-[0.5em] border-b border-solid border-light-grey text-blackish transition-colors duration-300 hover:(bg-accent text-white)"
+              @click.prevent="showBooksOnSubcategory($event)"
               >Математика</a
             >
           </li>
@@ -124,6 +145,7 @@
             <a
               href=""
               class="sublist__link inline-block w-full text-sm font-normal py-[0.3em] px-[0.5em] border-b border-solid border-light-grey text-blackish transition-colors duration-300 hover:(bg-accent text-white)"
+              @click.prevent="showBooksOnSubcategory($event)"
               >Физика</a
             >
           </li>
@@ -131,6 +153,7 @@
             <a
               href=""
               class="sublist__link inline-block w-full text-sm font-normal py-[0.3em] px-[0.5em] border-b border-solid border-light-grey text-blackish transition-colors duration-300 hover:(bg-accent text-white)"
+              @click.prevent="showBooksOnSubcategory($event)"
               >Астрономия</a
             >
           </li>
@@ -138,6 +161,7 @@
             <a
               href=""
               class="sublist__link inline-block w-full text-sm font-normal py-[0.3em] px-[0.5em] border-b border-solid border-light-grey text-blackish transition-colors duration-300 hover:(bg-accent text-white)"
+              @click.prevent="showBooksOnSubcategory($event)"
               >Химия</a
             >
           </li>
@@ -145,6 +169,7 @@
             <a
               href=""
               class="sublist__link inline-block w-full text-sm font-normal py-[0.3em] px-[0.5em] border-b border-solid border-light-grey text-blackish transition-colors duration-300 hover:(bg-accent text-white)"
+              @click.prevent="showBooksOnSubcategory($event)"
               >Биология</a
             >
           </li>
@@ -152,6 +177,7 @@
             <a
               href=""
               class="sublist__link inline-block w-full text-sm font-normal py-[0.3em] px-[0.5em] border-b border-solid border-light-grey text-blackish transition-colors duration-300 hover:(bg-accent text-white)"
+              @click.prevent="showBooksOnSubcategory($event)"
               >Экология</a
             >
           </li>
@@ -159,6 +185,7 @@
             <a
               href=""
               class="sublist__link inline-block w-full text-sm font-normal py-[0.3em] px-[0.5em] border-b border-solid border-light-grey text-blackish transition-colors duration-300 hover:(bg-accent text-white)"
+              @click.prevent="showBooksOnSubcategory($event)"
               >География</a
             >
           </li>
@@ -172,6 +199,8 @@
 </template>
 
 <script>
+/* eslint-disable object-shorthand */
+
 export default {
   props: {
     openAside: {
@@ -186,17 +215,45 @@ export default {
     };
   },
 
+  computed: {
+    activeCategory() {
+      return this.$store.getters['books/getActiveCategory'];
+    },
+  },
+
   methods: {
-    showBooksFromAside($event) {
+    async showBooksOnCategory($event) {
       console.log('$event: ', $event);
 
       const link = $event.target.closest('.catalogue__link');
 
       if (!link) return;
 
-      const category = link.textContent;
+      const category = link.textContent.trim();
 
-      this.$store.commit('books/changeActiveCategory', category);
+      await this.$store.dispatch('books/showBooksOnCategory', category);
+
+      this.$router.push({
+        name: this.$route.name,
+        query: { category },
+      });
+    },
+
+    async showBooksOnSubcategory($event) {
+      console.log('$event: ', $event);
+
+      const link = $event.target.closest('.sublist__link');
+
+      if (!link) return;
+
+      const subcategory = link.textContent.trim();
+
+      await this.$store.dispatch('books/showBooksOnSubcategory', subcategory);
+
+      this.$router.push({
+        name: this.$route.name,
+        query: { subcategory },
+      });
     },
   },
 };

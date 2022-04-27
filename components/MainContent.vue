@@ -5,7 +5,7 @@
       <section class="main-content w-full">
         <div class="filter-block flex items-center gap-x-4 gap-y-2">
           <button
-            class="btn-toggle-menu text-black text-3xl inline-flex items-center justify-center"
+            class="btn-toggle-menu text-black text-3xl inline-flex items-center justify-center xl:(hidden)"
             :class="{ 'text-accent': openAside }"
             @click="openAside = !openAside"
           >
@@ -36,7 +36,7 @@
 
         <div class="upper-block mt-6 flex items-center justify-between">
           <h2 id="filter-search-title" class="text-blackish text-2xl font-bold">
-            Все
+            {{ filterSearchTitle }}
           </h2>
           <!-- /#filter-search-title -->
           <BasePagination />
@@ -132,8 +132,43 @@ export default {
   },
 
   computed: {
+    /* routePath() {
+      console.log('this.$route: ', this.$route);
+      return this.$route;
+    }, */
+
     booksToShow() {
       return this.$store.getters['books/getAllBooksData'];
+    },
+
+    numberOfBooksToShow() {
+      return this.$store.getters['books/getAllBooksMeta'].pagination.total;
+    },
+
+    activeCategory() {
+      return this.$store.getters['books/getActiveCategory'];
+    },
+    activeSubcategory() {
+      return this.$store.getters['books/getActiveSubcategory'];
+    },
+
+    filterSearchTitle() {
+      console.log('this.$route: ', this.$route);
+      // return this.activeSubcategory || this.activeCategory;
+
+      if (this.$route.name === 'index') {
+        return this.activeSubcategory || this.activeCategory;
+      }
+
+      if (this.$route.path === 'search') {
+        if (this.numberOfBooksToShow === 0) {
+          return `Не удалось найти ничего по запросу: ${this.$store.getters['books/getSearchQuery']}`;
+        }
+
+        return `Результаты поиска по запросу: ${this.$store.getters['books/getSearchQuery']}`;
+      }
+
+      return null;
     },
   },
 };

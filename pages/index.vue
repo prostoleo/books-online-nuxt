@@ -21,7 +21,6 @@ export default {
 
   async asyncData(context) {
     console.log('context: ', context);
-    let books = null;
 
     /* const query = qs.stringify({
       fields: [
@@ -51,6 +50,10 @@ export default {
             fields: ['name', 'url', 'formats'],
           },
         },
+        pagination: {
+          // page: context.getters.getAllBooksMeta.pagination.page,
+          pageSize: 24,
+        },
       },
       {
         encodeValuesOnly: true,
@@ -64,15 +67,15 @@ export default {
         `http://localhost:1337/api/books?${query}`
       );
       console.log('res: ', res);
-      books = res;
-      console.log('books: ', books);
+      // books = res;
+      // console.log('books: ', books);
 
       context.store.commit('books/putAllBooksData', res.data);
       context.store.commit('books/putAllBooksMeta', res.meta);
 
-      return {
-        books,
-      };
+      // return {
+      //   books,
+      // };
     } catch (error) {
       console.error(error);
     }
