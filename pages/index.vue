@@ -6,13 +6,14 @@
 </template>
 
 <script>
-import qs from 'qs';
+// import qs from 'qs';
 import PromoSlider from '~/components/PromoSlider.vue';
 import MainContent from '~/components/MainContent.vue';
 import {
   getBooksOnSale,
   getFilterCategoryStr,
   getFilterSubcategoryStr,
+  getQueryStr,
 } from '~/utils/queryString';
 export default {
   name: 'IndexPage',
@@ -38,19 +39,24 @@ export default {
         'image',
       ],
     }); */
-    const { category, subcategory, page, sale } = context.query;
-    console.log({ category, subcategory });
+    const { category, subcategory, page, sale, yearOfPublish, price } =
+      context.query;
+    console.log({ category, subcategory, page, sale, yearOfPublish, price });
+    // console.log({ category, subcategory });
 
     category && context.store.commit('books/changeActiveCategory', category);
     subcategory &&
       context.store.commit('books/changeActiveSubcategory', subcategory);
     sale && context.store.commit('books/toggleShowSale');
+    yearOfPublish &&
+      context.store.commit('books/setSortPublish', yearOfPublish);
+    price && context.store.commit('books/setSortPrice', price);
 
     const saleStr = getBooksOnSale(sale);
     const categoryStr = getFilterCategoryStr(category);
     const subcategoryStr = getFilterSubcategoryStr(subcategory);
 
-    const queryStr = qs.stringify(
+    /* const queryStr = qs.stringify(
       {
         fields: [
           'author',
@@ -74,6 +80,20 @@ export default {
       {
         encodeValuesOnly: true,
       }
+    ); */
+    const queryStr = getQueryStr(
+      page || 1,
+      (context.store.getters['books/getDatePublishSort'] ||
+        context.store.getters['books/getPriceSort']) && [
+        {
+          field: 'yearOfPublish',
+          sort: context.store.getters['books/getDatePublishSort'],
+        },
+        {
+          field: 'price',
+          sort: context.store.getters['books/getDatePublishSort'],
+        },
+      ]
     );
     // console.log('queryStr: ', queryStr);
 

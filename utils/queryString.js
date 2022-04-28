@@ -42,15 +42,11 @@ export function getBooksOnSale(onSale = false) {
   return `filters[discount][$gt]=0&`;
 }
 
-export function getQueryStr(
-  pageNumber = null,
-
-  sortOptions = null
-) {
+export function getQueryStr(pageNumber = null, sortOptions = null) {
   return qs.stringify(
     {
       ...(sortOptions && {
-        sort: [`${sortOptions.field}:${sortOptions.sort}`],
+        sort: sortHelperStr(sortOptions),
       }),
       fields: [
         'author',
@@ -76,4 +72,16 @@ export function getQueryStr(
       encodeValuesOnly: true,
     }
   );
+}
+
+function sortHelperStr(sortArr) {
+  // `${sortOptions.field}:${sortOptions.sort}`
+  const arrOfStr = sortArr.reduce((arr, sortObj) => {
+    sortObj.sort && arr.push(`${sortObj.field}:${sortObj.sort}`);
+
+    return arr;
+  }, []);
+  console.log('arrOfStr: ', arrOfStr);
+
+  return arrOfStr;
 }

@@ -235,7 +235,7 @@ export default {
 
       this.$router.push({
         name: this.$route.name,
-        query: { category },
+        query: { ...this.$store.query, category },
       });
     },
 
@@ -252,7 +252,7 @@ export default {
 
       this.$router.push({
         name: this.$route.name,
-        query: { subcategory },
+        query: { ...this.$store.query, subcategory },
       });
     },
   },

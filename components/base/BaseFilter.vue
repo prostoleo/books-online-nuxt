@@ -22,9 +22,16 @@
     </button>
     <button
       class="btn-filter px-3 py-2 bg-gray-200 border-2 border-solid border-transparent flex items-center gap-x-1 hover:(opacity-80) focus:(opacity-80)"
+      :class="classesForPrice"
+      @click="sortBooksOnPrice"
     >
       По цене
-      <ion-icon name="chevron-up-outline"></ion-icon>
+      <span
+        class="inline-flex items-center text-black transform transition-transform rotate-x-0 duration-150"
+        :class="classesForPriceIcon"
+      >
+        <ion-icon class="" name="chevron-up-outline"></ion-icon>
+      </span>
     </button>
   </div>
   <!-- /.btn-block -->
@@ -41,6 +48,10 @@ export default {
       return this.$store.getters['books/getDatePublishSort'];
     },
 
+    getPriceSort() {
+      return this.$store.getters['books/getPriceSort'];
+    },
+
     classesForDatePublish() {
       return {
         '!border-accent': this.getDatePublishSort.match(/asc|desc/gi),
@@ -50,6 +61,17 @@ export default {
       return {
         // '!text-accent': this.getDatePublishSort.match(/asc|desc/gi),
         '!rotate-x-180': this.getDatePublishSort === 'desc',
+      };
+    },
+    classesForPrice() {
+      return {
+        '!border-accent': this.getPriceSort.match(/asc|desc/gi),
+      };
+    },
+    classesForPriceIcon() {
+      return {
+        // '!text-accent': this.getDatePublishSort.match(/asc|desc/gi),
+        '!rotate-x-180': this.getPriceSort === 'desc',
       };
     },
   },
@@ -86,12 +108,15 @@ export default {
 
       this.$store.commit('books/changeSortPublish');
 
-      await this.$store.dispatch('books/booksSortOnPublish');
+      await this.$store.dispatch('books/booksSortOnPublishOrPrice');
 
-      /* if (this.getShowWithSale) {
+      if (this.getDatePublishSort) {
         this.$router.push({
           name: this.$route.name,
-          query: { ...this.$route.query, sale: this.getShowWithSale },
+          query: {
+            ...this.$route.query,
+            yearOfPublish: this.getDatePublishSort,
+          },
         });
 
         return;
@@ -99,12 +124,42 @@ export default {
 
       const copyQuery = JSON.parse(JSON.stringify(this.$route.query));
 
-      delete copyQuery.sale;
+      delete copyQuery.yearOfPublish;
 
       this.$router.push({
         name: this.$route.name,
         query: { ...copyQuery },
-      }); */
+      });
+    },
+
+    // eslint-disable-next-line require-await
+    async sortBooksOnPrice() {
+      console.log('toggle sort Price');
+
+      this.$store.commit('books/changeSortPrice');
+
+      await this.$store.dispatch('books/booksSortOnPublishOrPrice');
+
+      if (this.getPriceSort) {
+        this.$router.push({
+          name: this.$route.name,
+          query: {
+            ...this.$route.query,
+            price: this.getPriceSort,
+          },
+        });
+
+        return;
+      }
+
+      const copyQuery = JSON.parse(JSON.stringify(this.$route.query));
+
+      delete copyQuery.price;
+
+      this.$router.push({
+        name: this.$route.name,
+        query: { ...copyQuery },
+      });
     },
   },
 };

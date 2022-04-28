@@ -9,15 +9,13 @@ export const state = () => ({
   searchQuery: '',
   activeCategory: 'Все',
   activeSubcategory: '',
-  sortType: {
-    showWithSale: false,
-    // datePublishAsc: false,
-    // datePublishDesc: false,
-    datePublishSort: '',
-    // priceAsc: false,
-    // priceDesc: false,
-    priceSort: '',
-  },
+  showWithSale: false,
+  // datePublishAsc: false,
+  // datePublishDesc: false,
+  datePublishSort: '',
+  // priceAsc: false,
+  // priceDesc: false,
+  priceSort: '',
 
   allBooksData: null, // type object | null
   allBooksMeta: null, // type object | null
@@ -49,11 +47,21 @@ export const getters = {
   },
 
   getShowWithSale(state) {
-    return state.sortType.showWithSale;
+    return state.showWithSale;
   },
 
   getDatePublishSort(state) {
-    return state.sortType.datePublishSort;
+    return state.datePublishSort;
+  },
+
+  getPriceSort(state) {
+    return state.priceSort;
+  },
+
+  getPublishOrPriceSort(_, getters) {
+    console.log('getters.getDatePublishSort: ', getters.getDatePublishSort);
+    console.log('getters.getPriceSort: ', getters.getPriceSort);
+    return getters.getDatePublishSort || getters.getPriceSort;
   },
 };
 
@@ -99,9 +107,25 @@ export const actions = {
     const categoryLowerCaseTrim = categoryToShow.toLowerCase().trim();
     console.log('categoryLowerCaseTrim: ', categoryLowerCaseTrim);
 
+    // todo получаем queryString для скидки
+    const saleStr = getBooksOnSale(context.getters.getShowWithSale);
+
     // todo получаем начальную queryStr для index и поиска страницы
-    const query = getQueryStr();
-    console.log('query: ', query);
+    const queryStr = getQueryStr(
+      1,
+      (context.getters.getDatePublishSort || context.getters.getPriceSort) && [
+        {
+          field: 'yearOfPublish',
+          sort: context.getters.getDatePublishSort,
+        },
+        {
+          field: 'price',
+          sort: context.getters.getDatePublishSort,
+        },
+      ]
+    );
+
+    console.log('queryStr: ', queryStr);
 
     // todo сбрасываем активную подкатегорию
     context.commit('resetActiveSubcategory', null);
@@ -112,7 +136,7 @@ export const actions = {
     // todo получаем queryString для категории
     const categoryStr = getFilterCategoryStr(context.getters.getActiveCategory);
 
-    const url = `http://localhost:1337/api/books/?${categoryStr}${query}`;
+    const url = `http://localhost:1337/api/books/?${saleStr}${categoryStr}${queryStr}`;
     console.log('url: ', url);
 
     try {
@@ -136,7 +160,21 @@ export const actions = {
     console.log('subcategoryTrim: ', subcategoryTrim);
 
     // eslint-disable-next-line no-unused-vars
-    const query = getQueryStr();
+    const queryStr = getQueryStr(
+      1,
+      (context.getters.getDatePublishSort || context.getters.getPriceSort) && [
+        {
+          field: 'yearOfPublish',
+          sort: context.getters.getDatePublishSort,
+        },
+        {
+          field: 'price',
+          sort: context.getters.getDatePublishSort,
+        },
+      ]
+    );
+
+    console.log('queryStr: ', queryStr);
     // console.log('query: ', query);
     // context.commit('changeActiveCategory', categoryToShow);
     // console.log('context: ', context);
@@ -155,7 +193,7 @@ export const actions = {
     // todo получаем queryString для скидки
     const saleStr = getBooksOnSale(context.getters.getShowWithSale);
 
-    const url = `http://localhost:1337/api/books/?${subcategoryStr}${saleStr}${query}`;
+    const url = `http://localhost:1337/api/books/?${subcategoryStr}${saleStr}${queryStr}`;
     console.log('url: ', url);
 
     try {
@@ -193,13 +231,36 @@ export const actions = {
     }
   },
 
-  async booksSortOnPublish(context) {
+  async booksSortOnPublishOrPrice(context) {
+    console.log('context: ', context);
+    // console.log(
+    //   'context.getters.getPublishOrPriceSort: ',
+    //   context.getters.getPublishOrPriceSort
+    // );
+    console.log(
+      'context.getters.getDatePublishSort: ',
+      context.getters.getDatePublishSort
+    );
+    console.log('context.getters.getPriceSort: ', context.getters.getPriceSort);
+    console.log(
+      context.getters.getDatePublishSort || context.getters.getPriceSort
+    );
+
     const saleStr = getBooksOnSale(context.getters.getShowWithSale);
 
-    const query = getQueryStr(1, {
-      field: 'yearOfPublish',
-      sort: context.getters.getDatePublishSort,
-    });
+    const query = getQueryStr(
+      1,
+      (context.getters.getDatePublishSort || context.getters.getPriceSort) && [
+        {
+          field: 'yearOfPublish',
+          sort: context.getters.getDatePublishSort,
+        },
+        {
+          field: 'price',
+          sort: context.getters.getPriceSort,
+        },
+      ]
+    );
     // context.commit('changeActiveCategory', categoryToShow);
     const categoryStr = getFilterCategoryStr(context.getters.getActiveCategory);
     const subcategoryStr = getFilterSubcategoryStr(
@@ -253,23 +314,54 @@ export const mutations = {
   },
 
   toggleShowSale(state) {
-    state.sortType.showWithSale = !state.sortType.showWithSale;
+    state.showWithSale = !state.showWithSale;
   },
 
   changeSortPublish(state) {
-    switch (state.sortType.datePublishSort) {
+    switch (state.datePublishSort) {
       case 'asc':
-        state.sortType.datePublishSort = 'desc';
+        state.datePublishSort = 'desc';
 
         break;
       case 'desc':
-        state.sortType.datePublishSort = '';
+        state.datePublishSort = '';
 
         break;
 
       default:
-        state.sortType.datePublishSort = 'asc';
+        state.datePublishSort = 'asc';
         break;
     }
+  },
+
+  setSortPublish(state, payload) {
+    if (!payload) return;
+
+    state.datePublishSort = payload;
+  },
+
+  changeSortPrice(state) {
+    switch (state.priceSort) {
+      case 'asc':
+        state.priceSort = 'desc';
+
+        break;
+      case 'desc':
+        state.priceSort = '';
+
+        break;
+
+      default:
+        state.priceSort = 'asc';
+        break;
+    }
+
+    console.log('state.priceSort: ', state.priceSort);
+  },
+
+  setPriceSort(state, payload) {
+    if (!payload) return;
+
+    state.priceSort = payload;
   },
 };
