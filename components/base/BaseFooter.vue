@@ -9,7 +9,9 @@
         </div>
         <p class="footer__copy text-xs text-light-grey mb-[1em]">
           &copy;&nbsp;Books Online
-          <span class="block">Все права защищены, &nbsp;2021</span>
+          <span class="block"
+            >Все права защищены, &nbsp;{{ showFooterYears }}</span
+          >
         </p>
       </div>
       <!-- /.footer__logo-copy -->
@@ -36,21 +38,6 @@
         <div
           class="footer__ways_pay_container flex items-center justify-between gap-x-2 gap-y-3 flex-wrap"
         >
-          <!-- img {
-          width: 100%;
-          height: auto;
-          object-fit: cover;
-          max-width: 80px;
-          margin-bottom: 10px;
-        }
-
-        img + img {
-          margin-left: 5px;
-        }
-
-        #footer-visa {
-          height: 40px !important;
-        } */ -->
           <img
             src="/mastercard.svg"
             alt=""
@@ -98,7 +85,19 @@
 </template>
 
 <script>
-export default {};
+export default {
+  computed: {
+    showFooterYears() {
+      const now = new Date();
+
+      if (now.getFullYear() === 2022) {
+        return now.getFullYear();
+      }
+
+      return `2022 - ${now.getFullYear()}`;
+    },
+  },
+};
 </script>
 
 <style lang="scss" scoped></style>

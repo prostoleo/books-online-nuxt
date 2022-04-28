@@ -233,9 +233,13 @@ export default {
 
       await this.$store.dispatch('books/showBooksOnCategory', category);
 
+      const copyQuery = JSON.parse(JSON.stringify(this.$route.query));
+
+      delete copyQuery.subcategory;
+
       this.$router.push({
         name: this.$route.name,
-        query: { ...this.$store.query, category },
+        query: { ...copyQuery, category },
       });
     },
 
@@ -249,10 +253,15 @@ export default {
       const subcategory = link.textContent.trim();
 
       await this.$store.dispatch('books/showBooksOnSubcategory', subcategory);
+      console.log('this.$store.query: ', this.$store.query);
+
+      const copyQuery = JSON.parse(JSON.stringify(this.$route.query));
+
+      delete copyQuery.category;
 
       this.$router.push({
         name: this.$route.name,
-        query: { ...this.$store.query, subcategory },
+        query: { ...copyQuery, subcategory },
       });
     },
   },

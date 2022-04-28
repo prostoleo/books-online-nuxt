@@ -73,7 +73,19 @@ export const actions = {
     // return null;
 
     // todo получаем queryString начальный
-    const query = getQueryStr(pageNumber);
+    const query = getQueryStr(
+      pageNumber,
+      (context.getters.getDatePublishSort || context.getters.getPriceSort) && [
+        {
+          field: 'yearOfPublish',
+          sort: context.getters.getDatePublishSort,
+        },
+        {
+          field: 'price',
+          sort: context.getters.getDatePublishSort,
+        },
+      ]
+    );
 
     // todo получаем queryString для скидки
     const saleStr = getBooksOnSale(context.getters.getShowWithSale);
@@ -210,7 +222,20 @@ export const actions = {
   async toggleShowSale(context) {
     const saleStr = getBooksOnSale(context.getters.getShowWithSale);
 
-    const query = getQueryStr(context.getters.getActivePageNumber);
+    // const query = getQueryStr(context.getters.getActivePageNumber);
+    const query = getQueryStr(
+      1,
+      (context.getters.getDatePublishSort || context.getters.getPriceSort) && [
+        {
+          field: 'yearOfPublish',
+          sort: context.getters.getDatePublishSort,
+        },
+        {
+          field: 'price',
+          sort: context.getters.getPriceSort,
+        },
+      ]
+    );
     // context.commit('changeActiveCategory', categoryToShow);
     const categoryStr = getFilterCategoryStr(context.getters.getActiveCategory);
     const subcategoryStr = getFilterSubcategoryStr(
@@ -237,14 +262,14 @@ export const actions = {
     //   'context.getters.getPublishOrPriceSort: ',
     //   context.getters.getPublishOrPriceSort
     // );
-    console.log(
-      'context.getters.getDatePublishSort: ',
-      context.getters.getDatePublishSort
-    );
-    console.log('context.getters.getPriceSort: ', context.getters.getPriceSort);
-    console.log(
-      context.getters.getDatePublishSort || context.getters.getPriceSort
-    );
+    // console.log(
+    //   'context.getters.getDatePublishSort: ',
+    //   context.getters.getDatePublishSort
+    // );
+    // console.log('context.getters.getPriceSort: ', context.getters.getPriceSort);
+    // console.log(
+    //   context.getters.getDatePublishSort || context.getters.getPriceSort
+    // );
 
     const saleStr = getBooksOnSale(context.getters.getShowWithSale);
 

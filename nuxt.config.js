@@ -85,6 +85,11 @@ export default {
     'nuxt-windicss',
   ],
 
+  loading: {
+    color: 'hsl(102, 35%, 54%)',
+    height: '5px',
+  },
+
   windicss: {
     analyze: true,
   },
