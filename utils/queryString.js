@@ -56,6 +56,7 @@ export function getQueryStr(pageNumber = null, sortOptions = null) {
         'yearOfPublish',
         'price',
         'discount',
+        'uuid',
       ],
       populate: {
         bookImage: {
@@ -84,4 +85,52 @@ function sortHelperStr(sortArr) {
   console.log('arrOfStr: ', arrOfStr);
 
   return arrOfStr;
+}
+
+export function getSearctStr(searchQuery = null) {
+  if (!searchQuery) return '';
+
+  const query = qs.stringify(
+    {
+      filters: {
+        $or: [
+          {
+            title: {
+              $containsi: searchQuery,
+            },
+          },
+          {
+            author: {
+              $containsi: searchQuery,
+            },
+          },
+        ],
+      },
+      fields: [
+        'author',
+        'title',
+        'category',
+        'subcategory',
+        'yearOfPublish',
+        'price',
+        'discount',
+        'uuid',
+      ],
+      populate: {
+        bookImage: {
+          fields: ['name', 'url', 'formats'],
+        },
+      },
+
+      pagination: {
+        page: 1,
+        pageSize: 24,
+      },
+    },
+    {
+      encodeValuesOnly: true,
+    }
+  );
+
+  return query;
 }

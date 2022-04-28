@@ -38,7 +38,7 @@ export default {
       if (page !== this.activePage) {
         this.$store.dispatch('books/showBooksOnPageNumber', page);
         this.$router.push({
-          name: 'index',
+          name: this.$route.name,
           query: { ...this.$route.query, page },
         });
       }

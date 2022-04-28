@@ -3,6 +3,7 @@ import {
   getFilterCategoryStr,
   getFilterSubcategoryStr,
   getQueryStr,
+  getSearctStr,
 } from '~/utils/queryString';
 
 export const state = () => ({
@@ -258,18 +259,6 @@ export const actions = {
 
   async booksSortOnPublishOrPrice(context) {
     console.log('context: ', context);
-    // console.log(
-    //   'context.getters.getPublishOrPriceSort: ',
-    //   context.getters.getPublishOrPriceSort
-    // );
-    // console.log(
-    //   'context.getters.getDatePublishSort: ',
-    //   context.getters.getDatePublishSort
-    // );
-    // console.log('context.getters.getPriceSort: ', context.getters.getPriceSort);
-    // console.log(
-    //   context.getters.getDatePublishSort || context.getters.getPriceSort
-    // );
 
     const saleStr = getBooksOnSale(context.getters.getShowWithSale);
 
@@ -293,6 +282,23 @@ export const actions = {
     );
 
     const url = `http://localhost:1337/api/books/?${saleStr}${categoryStr}${subcategoryStr}${query}`;
+    console.log('url: ', url);
+
+    try {
+      const res = await this.$axios.$get(url);
+      console.log('res: ', res);
+
+      context.commit('putAllBooksData', res.data);
+      context.commit('putAllBooksMeta', res.meta);
+    } catch (error) {
+      console.error(error);
+    }
+  },
+
+  async searchBooksOnQuery(context, query) {
+    const querySearchStr = getSearctStr(query);
+
+    const url = `http://localhost:1337/api/books/?${querySearchStr}`;
     console.log('url: ', url);
 
     try {
@@ -388,5 +394,11 @@ export const mutations = {
     if (!payload) return;
 
     state.priceSort = payload;
+  },
+
+  setSearchQuery(state, payload) {
+    if (!payload) return;
+
+    state.searchQuery = payload;
   },
 };

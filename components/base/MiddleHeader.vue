@@ -4,9 +4,10 @@
       <a href="/">
         <img class="logo" src="/logo.svg" alt="логотип Books Online" />
       </a>
-      <div class="input-block">
+      <form class="input-block" @submit.prevent="submitSearch">
         <input
           id="input-search"
+          v-model.trim="searchQuery"
           type="search"
           name="search"
           placeholder="Введите запрос"
@@ -15,7 +16,7 @@
           <ion-icon id="search-icon" name="search-sharp"></ion-icon>
           <span>Поиск</span>
         </button>
-      </div>
+      </form>
       <div class="action-block">
         <button class="btn-middle-header btn-middle-header--cart">
           <span>Корзина</span>
@@ -31,7 +32,41 @@
 </template>
 
 <script>
-export default {}
+export default {
+  data() {
+    return {
+      searchQuery: '',
+    };
+  },
+
+  computed: {
+    getSearchQuery() {
+      return this.$store.getters['books/getSearchQuery'];
+    },
+  },
+
+  methods: {
+    async submitSearch() {
+      if (
+        this.searchQuery.length === 0 ||
+        this.searchQuery === this.getSearchQuery
+      )
+        return;
+
+      console.log('this.searchQuery: ', this.searchQuery);
+
+      this.$store.commit('books/setSearchQuery', this.searchQuery);
+
+      this.$router.push({
+        // name: 'SearchPage',
+        path: '/search',
+        query: { query: this.searchQuery },
+      });
+
+      await this.$store.dispatch('books/searchBooksOnQuery', this.searchQuery);
+    },
+  },
+};
 </script>
 
 <style lang="scss" scoped>

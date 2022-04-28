@@ -238,7 +238,7 @@ export default {
       delete copyQuery.subcategory;
 
       this.$router.push({
-        name: this.$route.name,
+        name: 'IndexPage',
         query: { ...copyQuery, category },
       });
     },
@@ -260,7 +260,7 @@ export default {
       delete copyQuery.category;
 
       this.$router.push({
-        name: this.$route.name,
+        name: 'IndexPage',
         query: { ...copyQuery, subcategory },
       });
     },
