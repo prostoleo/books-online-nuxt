@@ -998,8 +998,8 @@
           }
 
           .btn-add-fav {
-            color: $blackish;
-            font-size: 1.8rem;
+            // color: $blackish;
+            // font-size: 1.8rem;
 
             transform: scaleX(1) scaleY(1);
             transition: 250ms color ease-in, 250ms transform ease-in;
@@ -1024,17 +1024,17 @@
     }
 
     .down-part {
-      display: flex;
-      flex-direction: column;
+      // display: flex;
+      // flex-direction: column;
 
       .info__wrapper {
         .btns {
-          display: inline-flex;
-          align-items: center;
+          // display: inline-flex;
+          // align-items: center;
 
-          .btn + .btn {
-            margin-left: 0.25rem;
-          }
+          // .btn + .btn {
+          //   margin-left: 0.25rem;
+          // }
         }
 
         .btn-info {
@@ -1048,34 +1048,34 @@
 
         .info__content,
         .add__content {
-          padding: 1rem;
-          border-radius: 5px;
-          border: 1px solid $light-grey;
+          // padding: 1rem;
+          // border-radius: 5px;
+          // border: 1px solid $light-grey;
 
-          margin-bottom: 2rem;
+          // margin-bottom: 2rem;
 
-          display: none;
-          // max-height: 0;
-          opacity: 0;
-          visibility: hidden;
+          // display: none;
+          // // max-height: 0;
+          // opacity: 0;
+          // visibility: hidden;
 
-          transform: scaleY(0);
-          transform-origin: top center;
+          // transform: scaleY(0);
+          // transform-origin: top center;
 
-          transition: transform 250ms ease, opacity 250ms ease,
-            visibility 250ms ease, max-height 50ms ease;
+          // transition: transform 250ms ease, opacity 250ms ease,
+          //   visibility 250ms ease, max-height 50ms ease;
 
-          &.--active-block {
-            display: block;
-          }
+          // &.--active-block {
+          //   display: block;
+          // }
 
-          &.--active {
-            max-height: 100%;
-            opacity: 1;
-            visibility: visible;
+          // &.--active {
+          //   max-height: 100%;
+          //   opacity: 1;
+          //   visibility: visible;
 
-            transform: scaleY(1);
-          }
+          //   transform: scaleY(1);
+          // }
 
           .info__text,
           .add__text {

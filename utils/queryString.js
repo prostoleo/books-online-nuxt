@@ -134,3 +134,58 @@ export function getSearctStr(searchQuery = null) {
 
   return query;
 }
+
+export function getBookQueryStrOnUuid(uuid = null) {
+  if (!uuid) return '';
+
+  const query = qs.stringify(
+    {
+      filters: {
+        uuid: {
+          $eq: uuid,
+        },
+      },
+      populate: '*',
+
+      /* pagination: {
+        page: 1,
+        pageSize: 24,
+      }, */
+    },
+    {
+      encodeValuesOnly: true,
+    }
+  );
+
+  return query;
+}
+
+export function getBooksMayLike(category = null) {
+  if (!category) return '';
+
+  const query = qs.stringify(
+    {
+      filters: {
+        category: {
+          $eq: category,
+        },
+      },
+      fields: ['title', 'category', 'subcategory', 'price', 'uuid'],
+      populate: {
+        bookImage: {
+          fields: ['name', 'url', 'formats'],
+        },
+      },
+
+      /* pagination: {
+        page: 1,
+        pageSize: 24,
+      }, */
+    },
+    {
+      encodeValuesOnly: true,
+    }
+  );
+
+  return query;
+}

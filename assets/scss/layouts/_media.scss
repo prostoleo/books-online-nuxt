@@ -42,15 +42,15 @@
             }
 
             i {
-              font-size: 2.2rem !important;
+              font-size: 22px !important;
             }
           }
 
           .row-cart::before {
             padding: 0.3rem;
-            font-size: 1.2rem;
-            width: 1.5rem;
-            height: 1.5rem;
+            font-size: 12px;
+            width: 15px;
+            height: 15px;
           }
         }
 
@@ -68,12 +68,12 @@
       }
 
       .middle__search > * {
-        font-size: 1.5rem !important;
+        font-size: 15px !important;
       }
     }
 
     .nav__link {
-      font-size: 1.8rem !important;
+      font-size: 18px !important;
     }
   }
 
@@ -81,7 +81,7 @@
     .main__section {
       .section__btn__title {
         .btn-burger {
-          font-size: 1.8rem !important;
+          font-size: 18px !important;
         }
       }
 
@@ -90,21 +90,21 @@
 
         .card {
           .card__title {
-            font-size: 1.8rem !important;
+            font-size: 18px !important;
           }
           .card__price {
-            font-size: 1.6rem !important;
+            font-size: 16px !important;
           }
 
           .btn-add-cart {
-            font-size: 1.5rem !important;
+            font-size: 15px !important;
           }
         }
       }
 
       .page__container {
         .page__item {
-          font-size: 1.5rem !important;
+          font-size: 15px !important;
         }
       }
     }
@@ -115,7 +115,7 @@
           padding: 0.4em 0.8em !important;
 
           .crumb__link {
-            font-size: 1.3rem !important;
+            font-size: 13px !important;
           }
         }
       }
@@ -155,7 +155,7 @@
     }
 
     .nav__link {
-      font-size: 2rem !important;
+      font-size: 20px !important;
     }
   }
 
@@ -172,7 +172,7 @@
     .main__section {
       .section__btn__title {
         .btn-burger {
-          font-size: 2.2rem !important;
+          font-size: 22px !important;
         }
       }
 
@@ -183,21 +183,21 @@
 
         .card {
           .card__title {
-            font-size: 1.8rem !important;
+            font-size: 18px !important;
           }
           .card__price {
-            font-size: 1.6rem !important;
+            font-size: 16px !important;
           }
 
           .btn-add-cart {
-            font-size: 1.5rem !important;
+            font-size: 15px !important;
           }
         }
       }
 
       .page__container {
         .page__item {
-          font-size: 1.5rem !important;
+          font-size: 15px !important;
         }
       }
     }
@@ -207,9 +207,9 @@
     max-height: 320px !important;
   }
 
-  .down-part {
-    flex-direction: row !important;
-  }
+  // .down-part {
+  //   flex-direction: row !important;
+  // }
 
   .info__text,
   .add__text,
@@ -219,15 +219,15 @@
   .btn-submit,
   .like__content .title,
   .btn-look {
-    font-size: 1.6rem !important;
+    font-size: 16px !important;
   }
 
   .like__content .price {
-    font-size: 1.8rem !important;
+    font-size: 18px !important;
   }
 
   .user__info .user__nick {
-    font-size: 1.4rem !important;
+    font-size: 14px !important;
   }
 
   .review__item .user__info .user__img {
@@ -253,17 +253,17 @@
       max-width: unset;
 
       .catalogue__title {
-        font-size: 2.5rem !important;
+        font-size: 25px !important;
       }
 
       .catalogue__link {
-        font-size: 1.8rem !important;
+        font-size: 18px !important;
 
         padding: 0.6em 1.2em !important;
       }
 
       .sublist__link {
-        font-size: 1.6rem !important;
+        font-size: 16px !important;
         padding: 0.4em 0.6em !important;
       }
     }
@@ -288,7 +288,7 @@
       .bread-crumbs {
         .crumb__item {
           .crumb__link {
-            font-size: 1.5rem !important;
+            font-size: 15px !important;
           }
         }
       }
